@@ -1,0 +1,132 @@
+<div class="wrapper container">
+  <h3>Credit Card Payment Validation</h3>
+  <div class="col">
+    <div class="container">
+      <div class="card-image">
+        <div class="card card-size">
+          <div class="card-wrapper">
+            <div class="flex-1"></div>
+            <div class="flex-1 info-wrapper">
+              <div class="info">
+                <h5>
+                  {{ paymentModel.cardNumber | mask : "0000-0000-0000-0000" }}
+                </h5>
+                <p>{{ paymentModel.name }}</p>
+              </div>
+              <div>{{ paymentModel.month }}/{{ paymentModel.year }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="submit()">
+            <div class="col card-form">
+              <label for="cardNumber" class="form-label">Card Number</label>
+              <input
+                id="cardNumber"
+                type="text"
+                class="form-control"
+                formControlName="cardNumber"
+                [(ngModel)]="paymentModel.cardNumber"
+                placeholder="xxxx-xxxx-xxxx-xxxx"
+                mask="0000-0000-0000-0000"
+                [patterns]="customPatterns"
+                autocomplete="off"
+              />
+              <div
+                *ngIf="f['cardNumber'].errors && f['cardNumber'].touched"
+                class="invalid-input"
+              >
+                <p data-test-id="number-input-error">Invalid Card Number</p>
+              </div>
+            </div>
+            <div class="col info">
+              <label for="name" class="form-label">Name</label>
+              <input
+                id="name"
+                type="text"
+                class="form-control"
+                formControlName="name"
+                [(ngModel)]="paymentModel.name"
+                autocomplete="off"
+              />
+              <div
+                *ngIf="f['name'].errors && f['name'].touched"
+                class="invalid-input"
+              >
+                <p data-test-id="name-input-error">Invalid Cardholder Name</p>
+              </div>
+            </div>
+            <div class="row mt-md">
+              <div class="col">
+                <input
+                  id="month"
+                  type="text"
+                  class="form-control"
+                  formControlName="month"
+                  [(ngModel)]="paymentModel.month"
+                  mask="00"
+                  autocomplete="off"
+                />
+                <label for="month" class="form-label">Expiry month</label>
+                <div
+                  *ngIf="f['month'].errors && f['month'].touched"
+                  class="invalid-input"
+                >
+                  <p data-test-id="month-input-error">Invalid Month</p>
+                </div>
+              </div>
+              <div class="col">
+                <select
+                  class="form-control"
+                  id="year"
+                  formControlName="year"
+                  [(ngModel)]="paymentModel.year"
+                >
+                  <option *ngFor="let year of years" [value]="year.value">
+                    {{ year.text }}
+                  </option>
+                </select>
+                <label for="year" class="form-label">Expiry year</label>
+                <div
+                  *ngIf="f['year'].errors && f['year'].touched"
+                  class="invalid-input"
+                >
+                  <p data-test-id="year-input-error">Invalid Year</p>
+                </div>
+              </div>
+              <div class="col">
+                <input
+                  id="cvv"
+                  type="text"
+                  class="form-control"
+                  formControlName="cvv"
+                  [(ngModel)]="paymentModel.cvv"
+                  mask="000"
+                  autocomplete="off"
+                />
+                <label for="cvv" class="form-label">CVV/CVC</label>
+                <div
+                  *ngIf="f['cvv'].errors && f['cvv'].touched"
+                  class="invalid-input"
+                >
+                  <p data-test-id="cvv-input-error">Invalid CVV/CVC</p>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-md">
+              <button
+                type="submit"
+                class="btn btn-outline-primary"
+                [disabled]="form.invalid"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
